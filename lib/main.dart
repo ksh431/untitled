@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/ui/home_page.dart';
+import 'package:untitled/ui/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,15 +15,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            primaryColor: Colors.red,
-            brightness: Brightness.light
-        ),
-      themeMode: ThemeMode.dark,
-      darkTheme: ThemeData(
-          primaryColor: Colors.yellow,
-          brightness: Brightness.dark
-      ),
+      theme:Themes.light,
+      darkTheme: Themes.dark,
+      themeMode: ThemeMode.light,
+
       home: HomePage()
     );
   }
