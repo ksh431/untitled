@@ -21,6 +21,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
     15,
     20,
   ];
+  String _selectedRepeat = "없음";
+  List<String> repeatList=[
+    "없음",
+    "매일",
+    "매주",
+    "매달"
+  ];
+  int _selectedColor=0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,6 +110,34 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     }
                     ).toList(),
                   ),
+                ),
+                MyInputField(title: "반복", hint: _selectedRepeat,
+                  widget: DropdownButton(
+                    icon:Icon(Icons.keyboard_arrow_down,
+                      color: Colors.grey,),
+                    iconSize: 32,
+                    elevation: 4,
+                    style: subtitleStyle,
+                    underline: Container(height: 0,),
+                    onChanged: (String? newValue){
+                      setState(() {
+                        _selectedRepeat= newValue!;
+                      });
+                    },
+                    items: repeatList.map<DropdownMenuItem<String>>((String value){
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value, style: TextStyle(color: Colors.grey))
+                      );
+                    }
+                    ).toList(),
+                  )
+                ),
+                SizedBox(height: 18,),
+                Row(
+                  children: [
+                    _colorPallet(),
+                  ],
                 )
               ],
             ),
@@ -109,7 +145,43 @@ class _AddTaskPageState extends State<AddTaskPage> {
         ),
     );
   }
-
+  _colorPallet(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("색상",
+            style: titleStyle
+        ),
+        SizedBox(height:8.0,),
+        Wrap(
+          children: List<Widget>.generate(
+              3,
+                  (int index){
+                return GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      _selectedColor=index;
+                      print("$index");
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: CircleAvatar(
+                      radius: 14,
+                      backgroundColor: index==0?primaryClr:index==1?pinkCLr:yellowClr,
+                      child: _selectedColor==index?Icon(Icons.done,
+                        color: Colors.white,
+                        size: 16,
+                      ):Container(),
+                    ),
+                  ),
+                );
+              }
+          ),
+        )
+      ],
+    );
+  }
   _appBar(BuildContext context){
     return AppBar(
       elevation: 0,
