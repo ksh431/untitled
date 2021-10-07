@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:untitled/services/notification_services.dart';
+import 'package:untitled/services/theme_services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,6 +14,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var notifyHelper;
+  @override
+  void initState(){
+    // TODO: implement initState
+    super.initState();
+    notifyHelper=NotifyHelper();
+    notifyHelper.initializeNotification();
+    notifyHelper.requestIOSPermissions();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +43,13 @@ class _HomePageState extends State<HomePage> {
     return AppBar(
       leading: GestureDetector(
         onTap:(){
-          print("tapped");
+          ThemeService().switchTheme();
+          notifyHelper.displayNotification(
+            title:"Theme Changed",
+            body:Get.isDarkMode?"Activated light Theme":"Activated Dark Theme"
+          );
+
+          notifyHelper.scheduledNotification();
         },
         child: Icon(Icons.nightlight_round,
         size: 20,),
