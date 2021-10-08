@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:untitled/controlloers/task_controller.dart';
+import 'package:untitled/models/task.dart';
 import 'package:untitled/ui/theme.dart';
+import 'package:untitled/ui/widgets/button.dart';
 import 'package:untitled/ui/widgets/input_field.dart';
 class AddTaskPage extends StatefulWidget {
   const AddTaskPage({Key? key}) : super(key: key);
@@ -11,7 +14,10 @@ class AddTaskPage extends StatefulWidget {
 }
 
 class _AddTaskPageState extends State<AddTaskPage> {
+  final TaskController _taskController = Get.put(TaskController());
   DateTime _selectedDate = DateTime.now();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
   String _endTime= DateFormat("hh:mm a").format(DateTime.now()).toString();
   String _startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
   int _selectedRemind = 5;
@@ -43,8 +49,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   "일정 추가",
                   style: headingStyle,
                 ),
-                MyInputField(title: "일정", hint: "일정을 입력하세요"),
-                MyInputField(title: "메모", hint: "메모를 입력하세요"),
+                MyInputField(title: "일정", hint: "일정을 입력하세요", controller: _titleController,),
+                MyInputField(title: "메모", hint: "메모를 입력하세요", controller: _noteController,),
                 MyInputField(title: "날짜", hint: DateFormat.yMd().format(_selectedDate),
                   widget: IconButton(
                     icon: Icon(Icons.calendar_today_outlined,
@@ -135,8 +141,12 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 ),
                 SizedBox(height: 18,),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     _colorPallet(),
+                    MyButton(label: "확인", onTap: ()=>_validateDate())
+                    
                   ],
                 )
               ],
@@ -144,6 +154,36 @@ class _AddTaskPageState extends State<AddTaskPage> {
           ),
         ),
     );
+  }
+
+  _validateDate(){
+    if(_titleController.text.isNotEmpty&&_noteController.text.isNotEmpty){
+      _addTaskToDb();
+      Get.back();
+    }else if(_titleController.text.isEmpty||_noteController.text.isEmpty){
+      Get.snackbar("Required", "All fields are required !",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.white,
+        icon:Icon(Icons.warning_amber_rounded)
+      );
+    }
+  }
+
+  _addTaskToDb() async {
+    int value=await _taskController.addTask(
+        task:Task(
+          note: _noteController.text,
+          title: _titleController.text,
+          date: DateFormat.yMd().format(_selectedDate),
+          startTime: _startTime,
+          endTime: _endTime,
+          remind: _selectedRemind,
+          repeat: _selectedRepeat,
+          color: _selectedColor,
+          isCompleted: 0,
+        )
+    );
+    print("My id is "+"$value");
   }
   _colorPallet(){
     return Column(
