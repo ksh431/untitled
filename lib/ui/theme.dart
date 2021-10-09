@@ -25,17 +25,17 @@ class Themes{
   );
 }
 
-TextStyle get subHeadingStyle{
+TextStyle get subHeadingTextStyle{
   return GoogleFonts.lato(
     textStyle: TextStyle(
-      fontSize: 24,
+      fontSize: 20,
       fontWeight: FontWeight.bold,
       color: Get.isDarkMode?Colors.grey[400]:Colors.grey
     )
   );
 }
 
-TextStyle get headingStyle{
+TextStyle get headingTextStyle{
   return GoogleFonts.lato(
       textStyle: TextStyle(
           fontSize: 30,
@@ -45,7 +45,8 @@ TextStyle get headingStyle{
   );
 }
 
-TextStyle get titleStyle{
+
+TextStyle get titleTextStyle{
   return GoogleFonts.lato(
       textStyle: TextStyle(
           fontSize: 16,
@@ -55,12 +56,30 @@ TextStyle get titleStyle{
   );
 }
 
-TextStyle get subtitleStyle{
+TextStyle get subtitleTextStyle{
   return GoogleFonts.lato(
       textStyle: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: Get.isDarkMode? Colors.grey[100]:Colors.grey[600]
       )
+  );
+}
+
+TextStyle get bodyTextStyle {
+  return GoogleFonts.lato(
+    textStyle: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: Get.isDarkMode ? Colors.white : Colors.black),
+  );
+}
+
+TextStyle get body2TextStyle {
+  return GoogleFonts.lato(
+    textStyle: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: Get.isDarkMode ? Colors.grey[200] : Colors.grey[600]),
   );
 }

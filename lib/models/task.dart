@@ -1,14 +1,14 @@
 class Task {
-  int? id;
-  String? title;
-  String? note;
-  int? isCompleted;
-  String? date;
-  String? startTime;
-  String? endTime;
-  int? color;
-  int? remind;
-  String? repeat;
+  int id;
+  String title;
+  String note;
+  int isCompleted;
+  String date;
+  String startTime;
+  String endTime;
+  int color;
+  int remind;
+  String repeat;
 
   Task({
     this.id,
@@ -49,7 +49,5 @@ class Task {
     data['remind'] = this.remind;
     data['repeat'] = this.repeat;
     return data;
-
-
   }
 }
